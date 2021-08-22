@@ -14,4 +14,14 @@ const fetchISSFlyOverTimes = function(body) {
   return request(`http://api.open-notify.org/iss-pass.json?lat=${latitude}&lon=${longitude}`);
 }
 
-module.exports = { fetchMyIp, fetchCoordsByIP, fetchISSFlyOverTimes };
+const nextISSTimesForMyLocation = function() {
+  return fetchMyIp()
+    .then(fetchCoordsByIP)
+    .then(fetchISSFlyOverTimes)
+    .then(data => {
+      const {response} = JSON.parse(data);
+      return response;
+    })
+}
+
+module.exports = { fetchMyIp, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation };
